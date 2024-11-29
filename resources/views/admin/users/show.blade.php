@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('title', 'Super Admin Show User')
 @section('content')
 <style>
     .thumb-image{

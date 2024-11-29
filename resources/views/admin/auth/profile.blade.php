@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('title', 'Super Admin Profile')
 @section('style')
 <style>
  .user-image{

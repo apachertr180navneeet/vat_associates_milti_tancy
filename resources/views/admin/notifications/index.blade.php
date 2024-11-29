@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
+@section('title', 'Super Admin Notifications')
 @section('style')
-
 @endsection  
 @section('content')
 <div class="container-fluid flex-grow-1 container-p-y">

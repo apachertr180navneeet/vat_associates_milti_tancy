@@ -2,11 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\HomeController;
-use App\Http\Controllers\Admin\AdminAuthController;
-use App\Http\Controllers\Admin\PageController;
-use App\Http\Controllers\Admin\ContactController;
-use App\Http\Controllers\Admin\NotificationController;
-use App\Http\Controllers\Admin\AdminUserController;
+
+// Super Admin Controller
+use App\Http\Controllers\Admin\{
+    AdminAuthController,
+    PageController,
+    ContactController,
+    NotificationController,
+    AdminUserController,
+
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -20,75 +25,69 @@ use App\Http\Controllers\Admin\AdminUserController;
 */
 
 
+// Website routes
 Route::get('/', [HomeController::class, 'index'])->name('/');
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
+
+// Super Admin routes
+
 Route::name('admin.')->prefix('admin')->group(function () {
-    Route::get('/', [AdminAuthController::class, 'index']);
+    
+    // Admin Authentication Routes
+    Route::controller(AdminAuthController::class)->group(function () {
+        Route::get('login', 'login')->name('login');
+        Route::post('login', 'postLogin')->name('login.post');
+        Route::get('forget-password', 'showForgetPasswordForm')->name('forget.password.get');
+        Route::post('forget-password', 'submitForgetPasswordForm')->name('forget.password.post');
+        Route::get('reset-password/{token}', 'showResetPasswordForm')->name('reset.password.get');
+        Route::post('reset-password', 'submitResetPasswordForm')->name('reset.password.post');
+    });
 
-    Route::get('login', [AdminAuthController::class, 'login'])->name('login');
-
-    Route::post('login', [AdminAuthController::class, 'postLogin'])->name('login.post');
-
-    Route::get('forget-password', [AdminAuthController::class, 'showForgetPasswordForm'])->name('forget.password.get');
-
-    Route::post('forget-password', [AdminAuthController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
-
-    Route::get('reset-password/{token}', [AdminAuthController::class, 'showResetPasswordForm'])->name('reset.password.get');
-
-    Route::post('reset-password', [AdminAuthController::class, 'submitResetPasswordForm'])->name('reset.password.post');
-
-    Route::middleware(['admin'])->group(function () {
-    	Route::get('dashboard', [AdminAuthController::class, 'adminDashboard'])->name('dashboard');
-
-        Route::get('change-password', [AdminAuthController::class, 'changePassword'])->name('change.password');
-
-        Route::post('update-password', [AdminAuthController::class, 'updatePassword'])->name('update.password');
-
-        Route::get('logout', [AdminAuthController::class, 'logout'])->name('logout');
-
-        Route::get('profile', [AdminAuthController::class, 'adminProfile'])->name('profile');
-
-        Route::post('profile', [AdminAuthController::class, 'updateAdminProfile'])->name('update.profile');
-
-        Route::name('users.')->group(function () {
-            
-            Route::get("users", [AdminUserController::class, 'index'])->name('index');
-            
-            Route::get("users/alluser", [AdminUserController::class, 'getallUser'])->name('alluser');
-
-            Route::post("users/status", [AdminUserController::class, 'userStatus'])->name('status');
-
-            Route::delete("users/delete/{id}", [AdminUserController::class, 'destroy'])->name('destroy');
-
-            Route::get("users/{id}", [AdminUserController::class, 'show'])->name('show');
-            
-        });
-        
-        Route::name('contacts.')->group(function () {
-            
-            Route::get("contacts", [ContactController::class, 'index'])->name('index');
-
-            Route::get("contacts/all", [ContactController::class, 'getallcontact'])->name('allcontact');
-
-            Route::delete("contacts/delete/{id}", [ContactController::class, 'destroy'])->name('destroy');
+    // Routes requiring 'admin' middleware
+    Route::middleware('admin')->group(function () {
+    
+        // Admin Dashboard and Profile Routes
+        Route::controller(AdminAuthController::class)->group(function () {
+            Route::get('dashboard', 'adminDashboard')->name('dashboard');
+            Route::get('change-password', 'changePassword')->name('change.password');
+            Route::post('update-password', 'updatePassword')->name('update.password');
+            Route::get('logout', 'logout')->name('logout');
+            Route::get('profile', 'adminProfile')->name('profile');
+            Route::post('profile', 'updateAdminProfile')->name('update.profile');
         });
 
-        Route::name('page.')->group(function () {
-            
-            Route::get("page/create/{key}", [PageController::class, 'create'])->name('create');
-            
-            Route::put("page/update/{key}", [PageController::class, 'update'])->name('update');
+        // Admin User Management Routes
+        Route::prefix('users')->name('users.')->controller(AdminUserController::class)->group(function () {
+            Route::get("/",'index')->name('index');
+            Route::get("alluser", 'getallUser')->name('alluser');
+            Route::post("status",'userStatus')->name('status');
+            Route::delete("delete/{id}",'destroy')->name('destroy');
+            Route::get("{id}",'show')->name('show');
         });
 
-        Route::name('notifications.')->group(function () {
-            
-            Route::get("notifications/index", [NotificationController::class, 'index'])->name('index');
-            
-            Route::get("notifications/clear", [NotificationController::class, 'clear'])->name('clear');
-            
-            Route::delete("notifications/delete/{id}", [NotificationController::class, 'destroy'])->name('destroy');
+        // Admin Contact Management Routes
+        Route::prefix('contacts')->name('contacts.')->controller(ContactController::class)->group(function () {
+            Route::get("/",'index')->name('index');
+            Route::get("all", 'getallcontact')->name('allcontact');
+            Route::delete("delete/{id}",'destroy')->name('destroy');
         });
+
+
+        // Admin Page Management Routes
+        Route::prefix('page')->name('page.')->controller(PageController::class)->group(function () {
+            Route::get("create/{key}", 'create')->name('create');
+            Route::put("update/{key}",'update')->name('update');
+        });
+
+
+        // Admin Notifications Management Routes
+        Route::prefix('notifications')->name('notifications.')->controller(NotificationController::class)->group(function () {
+            Route::get("index",'index')->name('index');
+            Route::get("clear",'clear')->name('clear');
+            Route::delete("delete/{id}",'destroy')->name('destroy');
+        });
+    
     });
 
 });
@@ -96,6 +95,3 @@ Route::name('admin.')->prefix('admin')->group(function () {
 Route::middleware(['auth'])->group(function () {
 
 });
-
-
-

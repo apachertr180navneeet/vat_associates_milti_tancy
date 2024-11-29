@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('title', 'Super Admin Pages')
 @section('style')
 <style>
     .ck-editor__editable_inline {

@@ -1,5 +1,5 @@
 @extends('admin.layouts.login_layout') 
-
+@section('title', 'Super Admin Register')
 @section('content') 
 
 <section class="breadcrumb-area bread-bg-9">

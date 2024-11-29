@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+@section('title', 'Super Admin User')
 @section('style')
 
 @endsection  

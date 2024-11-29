@@ -1,4 +1,5 @@
-@extends('admin.layouts.app') 
+@extends('admin.layouts.app')
+@section('title', 'Super Admin Change Password')
 @section('content')
 <div class="container-fluid flex-grow-1 container-p-y">
     <h5 class="py-2 mb-2">

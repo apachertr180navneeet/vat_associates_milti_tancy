@@ -1,7 +1,7 @@
 @extends('admin.layouts.app')
+@section('title', 'Super Admin Dashboard')
 @section('style')
 @endsection  
-
 @section('content')
 
                     <!-- Content -->
