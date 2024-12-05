@@ -33,6 +33,13 @@
 				<div data-i18n="User">Firm Type</div>
 			</a>
 		</li>
-		
+
+        <li class="menu-item {{ request()->is('admin/firm') ? 'active' : ''}}">
+			<a href="{{route('admin.firm.index')}}" class="menu-link">
+				<i class="menu-icon tf-icons bx bx-group"></i>
+				<div data-i18n="User">Firm</div>
+			</a>
+		</li>
+
 	</ul>
 </aside>
