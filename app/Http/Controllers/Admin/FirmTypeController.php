@@ -9,6 +9,7 @@ use App\Models\{
 };
 use Mail,Hash,File,Auth,DB,Helper,Exception,Session,Redirect,Validator;
 use Carbon\Carbon;
+use Illuminate\Validation\Rule;
 
 class FirmTypeController extends Controller
 {
@@ -28,27 +29,25 @@ class FirmTypeController extends Controller
     }
 
     public function store(Request $request) {
-        // Validate the request
+        // Validate the request with unique check
         $validatedData = $request->validate([
-            'firmType' => 'required|string|max:255' . ($request->firmtypeid ? '' : '|unique:firm_types,name'),
+            'firmType' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('firm_types', 'name')->ignore($request->fitmtypeid), // Ensure uniqueness, ignoring current ID
+            ],
         ]);
 
-        if ($request->firmtypeid) {
-            // Update existing FirmType
-            $firmType = FirmType::find($request->firmtypeid);
-            if ($firmType) {
-                $firmType->name = $request->firmType;
-                $firmType->save();
-                return redirect()->route('admin.firm.type.index')->with('success', 'Firm Type updated successfully.');
-            }
-            return redirect()->route('admin.firm.type.index')->with('error', 'Firm Type not found.');
-        } else {
-            // Create new FirmType
-            FirmType::create([
-                'name' => $request->firmType,
-            ]);
-            return redirect()->route('admin.firm.type.index')->with('success', 'Firm Type saved successfully.');
-        }
+        // Use updateOrCreate to handle both create and update
+        FirmType::updateOrCreate(
+            ['id' => $request->fitmtypeid], // Condition for update
+            ['name' => $request->firmType]   // Data to update or create
+        );
+
+        return redirect()->route('admin.firm.type.index')->with('success',
+            $request->fitmtypeid ? 'Firm Type updated successfully.' : 'Firm Type saved successfully.'
+        );
     }
 
 

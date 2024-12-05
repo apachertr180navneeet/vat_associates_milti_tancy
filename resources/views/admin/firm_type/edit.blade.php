@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-6 text-start">
             <h5 class="py-2 mb-2">
-                <span class="text-primary fw-light">Add Firm Type</span>
+                <span class="text-primary fw-light">Edit Firm Type</span>
             </h5>
         </div>
     </div>
