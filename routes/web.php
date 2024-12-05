@@ -7,9 +7,7 @@ use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Admin\{
     AdminAuthController,
     PageController,
-    ContactController,
-    NotificationController,
-    AdminUserController,
+    FirmTypeController,
 
 };
 
@@ -58,33 +56,22 @@ Route::name('admin.')->prefix('admin')->group(function () {
         });
 
         // Admin User Management Routes
-        Route::prefix('users')->name('users.')->controller(AdminUserController::class)->group(function () {
+        // Route::prefix('users')->name('users.')->controller(AdminUserController::class)->group(function () {
+        //     Route::get("/",'index')->name('index');
+        //     Route::get("alluser", 'getallUser')->name('alluser');
+        //     Route::post("status",'userStatus')->name('status');
+        //     Route::delete("delete/{id}",'destroy')->name('destroy');
+        //     Route::get("{id}",'show')->name('show');
+        // });
+
+         // Admin Firm Type Management Routes
+        Route::prefix('firm_type')->name('firm.type.')->controller(FirmTypeController::class)->group(function () {
             Route::get("/",'index')->name('index');
-            Route::get("alluser", 'getallUser')->name('alluser');
-            Route::post("status",'userStatus')->name('status');
-            Route::delete("delete/{id}",'destroy')->name('destroy');
-            Route::get("{id}",'show')->name('show');
-        });
-
-        // Admin Contact Management Routes
-        Route::prefix('contacts')->name('contacts.')->controller(ContactController::class)->group(function () {
-            Route::get("/",'index')->name('index');
-            Route::get("all", 'getallcontact')->name('allcontact');
-            Route::delete("delete/{id}",'destroy')->name('destroy');
-        });
-
-
-        // Admin Page Management Routes
-        Route::prefix('page')->name('page.')->controller(PageController::class)->group(function () {
-            Route::get("create/{key}", 'create')->name('create');
-            Route::put("update/{key}",'update')->name('update');
-        });
-
-
-        // Admin Notifications Management Routes
-        Route::prefix('notifications')->name('notifications.')->controller(NotificationController::class)->group(function () {
-            Route::get("index",'index')->name('index');
-            Route::get("clear",'clear')->name('clear');
+            Route::get("all", 'getall')->name('all');
+            Route::get("create",'create')->name('create');
+            Route::post("store",'store')->name('store');
+            Route::post("status",'status')->name('status');
+            Route::get('/edit/{id}', 'edit')->name('edit');
             Route::delete("delete/{id}",'destroy')->name('destroy');
         });
     
