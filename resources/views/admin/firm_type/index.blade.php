@@ -2,7 +2,7 @@
 @section('title', 'Super Admin Firm Type')
 @section('style')
 
-@endsection  
+@endsection
 @section('content')
 <div class="container-fluid flex-grow-1 container-p-y">
     <div class="row">
@@ -45,10 +45,14 @@
 
     $('#firmTypeTable').DataTable({
         processing: true,
-        serverSide: true, // Added for better server-side processing
+        serverSide: true,
         ajax: {
             url: "{{ route('admin.firm.type.all') }}",
             type: "GET",
+            dataSrc: function (json) {
+                console.log(json);
+                return json.data;
+            }
         },
         columns: [
             {
@@ -57,29 +61,26 @@
             {
                 data: "status",
                 render: (data, type, row) => {
+                    if (row.status === undefined) {
+                        console.error('Status is undefined for row:', row);
+                        return '<span class="badge bg-label-danger me-1">Unknown</span>';
+                    }
                     return row.status === 'active'
                         ? '<span class="badge bg-label-success me-1">Active</span>'
                         : '<span class="badge bg-label-danger me-1">Inactive</span>';
                 }
             },
             {
-                data: "id", // Corrected to use `id` for action links
+                data: "id",
                 render: (id, type, row) => {
                     let buttons = '';
-                    
-                    // Status toggle buttons
                     if (row.status === 'inactive') {
                         buttons += `<button type="button" class="btn btn-sm btn-success me-1" onclick="status(${id}, 'active')">Activate</button>`;
                     } else if (row.status === 'active') {
                         buttons += `<button type="button" class="btn btn-sm btn-danger me-1" onclick="status(${id}, 'inactive')">Deactivate</button>`;
                     }
-
-                    // Delete button
                     buttons += `<button type="button" class="btn btn-sm btn-danger me-1" onclick="deleteData(${id})">Delete</button>`;
-
-                    // Edit button
                     buttons += `<a href="${baseUrl.replace(':id', id)}" class="btn btn-sm btn-warning">Edit</a>`;
-
                     return buttons;
                 }
             }
@@ -97,7 +98,7 @@
             message = 'Firm Type cannot login after Inactive!';
         }
 
-        
+
         Swal.fire({
             title: 'Are you sure?',
             text: message,
