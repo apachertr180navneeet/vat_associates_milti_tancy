@@ -43,9 +43,9 @@
 <script>
     const baseUrl = "{{ route('admin.firm.type.edit', ['id' => ':id']) }}";
 
-    $('#firmTypeTable').DataTable({
+    const table = $('#firmTypeTable').DataTable({
         processing: true,
-        serverSide: true,
+        ordering: false,
         ajax: {
             url: "{{ route('admin.firm.type.all') }}",
             type: "GET",
@@ -87,17 +87,10 @@
         ]
     });
 
-
-
-
-    function status(firmtypeid,status){
-        var message = '';
-        if(status == 'active'){
-            message = 'Firm Type able to login after active!';
-        }else{
-            message = 'Firm Type cannot login after Inactive!';
-        }
-
+    function status(firmtypeid, status) {
+        var message = status === 'active'
+            ? 'Firm Type able to login after active!'
+            : 'Firm Type cannot login after Inactive!';
 
         Swal.fire({
             title: 'Are you sure?',
@@ -106,34 +99,29 @@
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Okey'
+            confirmButtonText: 'Okay'
         }).then((result) => {
-            if(result.isConfirmed == true) {
+            if (result.isConfirmed) {
                 $.ajax({
                     type: "POST",
-                    url: "{{route('admin.firm.type.status')}}",
-                    data: {'firmtypeid':firmtypeid,'status':status,'_token': "{{ csrf_token() }}"},
+                    url: "{{ route('admin.firm.type.status') }}",
+                    data: { 'firmtypeid': firmtypeid, 'status': status, '_token': "{{ csrf_token() }}" },
                     success: function(response) {
-                        if(response.success){
-                            if(status == 1){
-                                setFlesh('success','Firm Type Activate Successfully');
-                            }else{
-                                setFlesh('success','Firm Type Inactivate Successfully');
-                            }
-                            $('#firmTypeTable').DataTable().ajax.reload();
-                        }else{
-                            setFlesh('error','There is some problem to change status!Please contact to your server adminstrator');
+                        if (response.success) {
+                            setFlesh('success', status === 'active' ? 'Firm Type Activated Successfully' : 'Firm Type Deactivated Successfully');
+                            table.ajax.reload(null, false); // Reload the DataTable without resetting the paging
+                        } else {
+                            setFlesh('error', 'There is some problem to change status! Please contact your server administrator');
                         }
                     }
                 });
-            }else{
-                $('#firmTypeTable').DataTable().ajax.reload();
+            } else {
+                table.ajax.reload(null, false); // Reload the DataTable without resetting the paging
             }
-        })
+        });
     }
 
-
-    function deleteData(firmtypeid){
+    function deleteData(firmtypeid) {
         Swal.fire({
             title: 'Are you sure?',
             text: "You want to delete this Firm Type!",
@@ -143,24 +131,24 @@
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes'
         }).then((result) => {
-            if(result.isConfirmed == true) {
+            if (result.isConfirmed) {
                 var url = '{{ route("admin.firm.type.destroy", ":firmtypeid") }}';
                 url = url.replace(':firmtypeid', firmtypeid);
                 $.ajax({
                     type: "DELETE",
                     url: url,
-                    data: {'_token': "{{ csrf_token() }}"},
+                    data: { '_token': "{{ csrf_token() }}" },
                     success: function(response) {
-                        if(response.success){
-                            setFlesh('success','Firm Type Deleted Successfully');
-                            $('#firmTypeTable').DataTable().ajax.reload();
-                        }else{
-                            setFlesh('error','There is some problem to delete Firm Type!Please contact to your server adminstrator');
+                        if (response.success) {
+                            setFlesh('success', 'Firm Type Deleted Successfully');
+                            table.ajax.reload(null, false); // Reload the DataTable without resetting the paging
+                        } else {
+                            setFlesh('error', 'There is some problem to delete Firm Type! Please contact your server administrator');
                         }
                     }
                 });
             }
-        })
+        });
     }
 </script>
 @endsection

@@ -22,12 +22,13 @@ class FirmTypeController extends Controller
     public function getall(Request $request) {
         $firmType = FirmType::orderBy('id', 'desc')->get();
 
-        return response()->json([
-            'draw' => 1,
-            'recordsTotal' => $firmType->count(),
-            'recordsFiltered' => $firmType->count(),
-            'data' => $firmType
-        ]);
+        // return response()->json([
+        //     'draw' => 1,
+        //     'recordsTotal' => $firmType->count(),
+        //     'recordsFiltered' => $firmType->count(),
+        //     'data' => $firmType
+        // ]);
+        return response()->json(['data' => $firmType]);
     }
 
     public function create() {
