@@ -1,5 +1,9 @@
 <?php
 
+
+use Modules\Transport\Http\Controllers\Admin\{
+    TransportAuthController,};
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,4 +17,18 @@
 
 Route::prefix('transport')->group(function() {
     Route::get('/', 'TransportController@index');
+    Route::name('admin.')->prefix('admin')->group(function () {
+
+        // Admin Authentication Routes
+        Route::controller(TransportAuthController::class)->group(function () {
+            Route::get('login', 'login')->name('login');
+            Route::post('login', 'postLogin')->name('login.post');
+        });
+
+        // Admin Auth login
+        Route::controller(TransportAuthController::class)->group(function () {
+            Route::get('dashboard', 'adminDashboard')->name('dashboard');
+        });
+
+    });
 });
