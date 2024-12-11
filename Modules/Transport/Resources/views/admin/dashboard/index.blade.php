@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('transport::admin.layouts.app')
 @section('title', 'Tranport Admin Dashboard')
 @section('style')
 @endsection

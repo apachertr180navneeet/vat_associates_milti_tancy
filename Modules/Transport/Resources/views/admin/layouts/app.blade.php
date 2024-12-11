@@ -9,6 +9,7 @@
         <meta name="csrf-token" content="{{ csrf_token() }}" />
         <meta name="ws_url" content="{{ env('WS_URL') }}">
         <meta name="user_id" content="{{ Auth::id() }}">
+
         <link rel="icon" type="image/x-icon" href="{{asset('assets/admin/img/favicon/favicon.ico')}}" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -25,24 +26,26 @@
         <link rel="stylesheet" href="{{asset('assets/admin/css/sweet-alert.css')}}" />
         @yield('style')
         <style>
-            
+            /* Custom styles if needed */
         </style>
-        
+
     </head>
     <body>
        <div class="layout-wrapper layout-content-navbar">
             <div class="layout-container">
-                @include('admin.layouts.elements.left_sidebar')
+                <!-- Include the left sidebar from the Transport module -->
+                @include('transport::admin.layouts.elements.left_sidebar')
+
                 <div class="layout-page">
-                    @include('admin.layouts.elements.header')
+                    @include('transport::admin.layouts.elements.header') <!-- Admin header -->
                     <div class="content-wrapper">
                         @yield('content')
-                        @include('admin.layouts.elements.footer')
+                        @include('transport::admin.layouts.elements.footer') <!-- Admin footer -->
                         <div class="content-backdrop fade"></div>
                     </div>
-                    @include('admin.layouts.elements.right_sidebar')
+                    @include('transport::admin.layouts.elements.right_sidebar') <!-- Admin right sidebar -->
                 </div>
-        
+
                 <script src="{{asset('assets/admin/vendor/libs/jquery/jquery.js')}}"></script>
                 <script src="{{asset('assets/admin/vendor/libs/popper/popper.js')}}"></script>
                 <script src="{{asset('assets/admin/vendor/js/bootstrap.js')}}"></script>
@@ -56,7 +59,7 @@
                 <script src="{{asset('assets/admin/js/moment.min.js')}}"></script>
                 <script async defer src="https://buttons.github.io/buttons.js"></script>
                 @yield('script')
-                @include('admin.layouts.elements.sweet_alerts')
+                @include('transport::admin.layouts.elements.sweet_alerts')
             </div>
             <div class="layout-overlay layout-menu-toggle"></div>
         </div>

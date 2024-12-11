@@ -2,7 +2,9 @@
 
 
 use Modules\Transport\Http\Controllers\Admin\{
-    TransportAuthController,};
+    TransportAuthController,
+    TransportBranchController,
+};
 
 /*
 |--------------------------------------------------------------------------
@@ -19,15 +21,21 @@ Route::prefix('transport')->group(function() {
     Route::get('/', 'TransportController@index');
     Route::name('admin.')->prefix('admin')->group(function () {
 
-        // Admin Authentication Routes
+        // Tranport Admin Authentication Routes
         Route::controller(TransportAuthController::class)->group(function () {
             Route::get('login', 'login')->name('login');
             Route::post('login', 'postLogin')->name('login.post');
         });
 
-        // Admin Auth login
+        // Tranport Admin Dashboard login
         Route::controller(TransportAuthController::class)->group(function () {
             Route::get('dashboard', 'adminDashboard')->name('dashboard');
+        });
+
+        // Tranport Admin Branches
+
+        Route::prefix('branchs')->name('branchs.')->controller(TransportBranchController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
         });
 
     });
