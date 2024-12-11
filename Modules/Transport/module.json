@@ -1,0 +1,10 @@
+{
+    "name": "Transport",
+    "alias": "transport",
+    "description": "",
+    "keywords": [],
+    "active": true,
+    "providers": [
+        "Modules\\Transport\\Providers\\TransportServiceProvider"
+    ]
+}
