@@ -14,7 +14,7 @@ class TransportBranchController extends Controller
      */
     public function index()
     {
-        return view('transport::index');
+        return view('transport::admin.branchs.index');
     }
 
     /**
@@ -23,7 +23,7 @@ class TransportBranchController extends Controller
      */
     public function create()
     {
-        return view('transport::create');
+        return view('transport::admin.branchs.create');
     }
 
     /**
@@ -33,7 +33,7 @@ class TransportBranchController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return redirect()->route("admin.branchs.index")->with("success", "Branch Add succesfully.");
     }
 
     /**

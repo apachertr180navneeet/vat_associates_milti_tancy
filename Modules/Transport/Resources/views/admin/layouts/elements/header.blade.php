@@ -38,9 +38,13 @@
 									</div>
 								</div>
 								<div class="flex-grow-1">
-									<span class="fw-medium d-block">{{Auth::user()->full_name}}</span>
-									<small class="text-muted">{{ucfirst(Auth::user()->role)}}</small>
-								</div>
+                                    <span class="fw-medium d-block">
+                                        {{ Auth::check() ? Auth::user()->full_name : 'Admin' }}
+                                    </span>
+                                    <small class="text-muted">
+                                        {{ Auth::check() ? ucfirst(Auth::user()->role) : 'Admin' }}
+                                    </small>
+                                </div>
 							</div>
 						</a>
 					</li>

@@ -36,6 +36,8 @@ Route::prefix('transport')->group(function() {
 
         Route::prefix('branchs')->name('branchs.')->controller(TransportBranchController::class)->group(function () {
             Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
         });
 
     });
