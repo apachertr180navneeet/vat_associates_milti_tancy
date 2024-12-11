@@ -4,6 +4,7 @@
 use Modules\Transport\Http\Controllers\Admin\{
     TransportAuthController,
     TransportBranchController,
+    TransportLocationController
 };
 
 /*
@@ -33,8 +34,14 @@ Route::prefix('transport')->group(function() {
         });
 
         // Tranport Admin Branches
-
         Route::prefix('branchs')->name('branchs.')->controller(TransportBranchController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+        });
+
+        // Tranport Admin Branches
+        Route::prefix('location')->name('location.')->controller(TransportLocationController::class)->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');

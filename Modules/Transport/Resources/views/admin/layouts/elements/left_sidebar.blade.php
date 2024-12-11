@@ -27,10 +27,17 @@
 			</a>
 		</li>
 
-		<li class="menu-item {{ request()->is('transport/admin/branchs') ? 'active' : ''}}">
+		<li class="menu-item {{ request()->is('transport/admin/branchs*') ? 'active' : ''}}">
             <a href="{{ route('admin.branchs.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-group"></i>
                 <div data-i18n="User">Branchs</div>
+            </a>
+        </li>
+
+        <li class="menu-item {{ request()->is('transport/admin/location*') ? 'active' : ''}}">
+            <a href="{{ route('admin.location.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-group"></i>
+                <div data-i18n="User">Locations</div>
             </a>
         </li>
 
