@@ -4,7 +4,8 @@
 use Modules\Transport\Http\Controllers\Admin\{
     TransportAuthController,
     TransportBranchController,
-    TransportLocationController
+    TransportLocationController,
+    TransportBankController
 };
 
 /*
@@ -40,8 +41,15 @@ Route::prefix('transport')->group(function() {
             Route::post('/store', 'store')->name('store');
         });
 
-        // Tranport Admin Branches
+        // Tranport Admin Location
         Route::prefix('location')->name('location.')->controller(TransportLocationController::class)->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+        });
+
+        // Tranport Admin Bank
+        Route::prefix('bank')->name('bank.')->controller(TransportBankController::class)->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
             Route::post('/store', 'store')->name('store');

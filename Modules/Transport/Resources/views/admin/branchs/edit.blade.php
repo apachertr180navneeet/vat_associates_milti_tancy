@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-@section('title', 'Super Admin Firm Type')
+@section('title', 'Edit Branch')
 @section('style')
 
 @endsection

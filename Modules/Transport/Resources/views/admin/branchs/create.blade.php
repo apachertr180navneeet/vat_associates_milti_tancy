@@ -1,5 +1,5 @@
 @extends('transport::admin.layouts.app')
-@section('title', 'Super Admin Firm Type')
+@section('title', 'Add Branch')
 @section('style')
 
 @endsection

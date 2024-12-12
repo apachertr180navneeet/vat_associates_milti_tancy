@@ -8,7 +8,7 @@
 		<a href="{{route('admin.dashboard')}}" class="app-brand-link">
 			<span class="app-brand-logo demo">
 			</span>
-			<span class="app-brand-text demo menu-text fw-bold ms-2">Vat Associates</span>
+			<span class="app-brand-text demo menu-text fw-bold ms-2">Transport Admin</span>
 		</a>
 
 		<a href="javascript:void(0);"
