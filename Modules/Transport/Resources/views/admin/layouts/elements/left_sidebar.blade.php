@@ -41,5 +41,12 @@
             </a>
         </li>
 
+		<li class="menu-item {{ request()->is('transport/admin/bank*') ? 'active' : ''}}">
+            <a href="{{ route('admin.bank.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-group"></i>
+                <div data-i18n="User">Bank</div>
+            </a>
+        </li>
+
 	</ul>
 </aside>

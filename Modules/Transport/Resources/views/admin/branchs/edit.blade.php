@@ -8,7 +8,7 @@
     <div class="row">
         <div class="col-md-6 text-start">
             <h5 class="py-2 mb-2">
-                <span class="text-primary fw-light">Edit Firm Type</span>
+                <span class="text-primary fw-light">Edit Branch</span>
             </h5>
         </div>
     </div>
@@ -17,145 +17,44 @@
             <div class="card">
                 <div class="card-body">
                     <!-- Show Validation Errors -->
-                    <form action="{{ route("admin.firm.store") }}" method="post">
-                        <input type="hidden" name="frimid" value="{{ $firm->id }}">
+                    <form action="{{ route("admin.branchs.store") }}" method="post">
                         <div class="row">
                             @csrf
-                            <div class="col-md-4 mb-3">
-                                <label for="firm_name" class="form-label">Firm Name</label>
+                            <div class="col-md-6 mb-3">
+                                <label for="branch_name" class="form-label">Branch Name</label>
                                 <input type="text"
-                                       class="form-control @error('firm_name') is-invalid @enderror"
-                                       id="firm_name"
-                                       name="firm_name"
-                                       value="{{ old('firm_name', $firm->firm_name) }}"
-                                       placeholder="Enter Firm Name">
-                                <!-- Show specific error for this field -->
-                                @error('firm_name')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
+                                       class="form-control"
+                                       id="branch_name"
+                                       name="branch_name"
+                                       value=""
+                                       placeholder="Enter Branch Name">
                             </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="phone" class="form-label">Mobile</label>
+                            <div class="col-md-6 mb-3">
+                                <label for="branch_code" class="form-label">Branch Code</label>
                                 <input type="text"
-                                       class="form-control @error('phone') is-invalid @enderror"
-                                       id="phone"
-                                       name="phone"
-                                       value="{{ old('phone', $firm->phone) }}"
-                                       placeholder="Enter Mobile">
-                                <!-- Show specific error for this field -->
-                                @error('phone')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
+                                       class="form-control"
+                                       id="branch_code"
+                                       name="branch_code"
+                                       value=""
+                                       placeholder="Enter Branch Code">
                             </div>
-                            <div class="col-md-4 mb-3">
+                            <div class="col-md-6 mb-3">
+                                <label for="gstn" class="form-label">GSTN</label>
+                                <input type="text"
+                                       class="form-control"
+                                       id="gstn"
+                                       name="gstn"
+                                       value=""
+                                       placeholder="Enter GSTN">
+                            </div>
+                            <div class="col-md-6 mb-3">
                                 <label for="location" class="form-label">Location</label>
-                                <input type="text"
-                                       class="form-control @error('location') is-invalid @enderror"
-                                       id="location"
-                                       name="location"
-                                       value="{{ old('location', $firm->location) }}"
-                                       placeholder="Enter Location">
-                                <!-- Show specific error for this field -->
-                                @error('location')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="address" class="form-label">Address</label>
-                                <input type="text"
-                                       class="form-control @error('address') is-invalid @enderror"
-                                       id="address"
-                                       name="address"
-                                       value="{{ old('address', $firm->address) }}"
-                                       placeholder="Enter Address">
-                                <!-- Show specific error for this field -->
-                                @error('address')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="text"
-                                       class="form-control @error('email') is-invalid @enderror"
-                                       id="email"
-                                       name="email"
-                                       value="{{ old('email', $firm->email) }}"
-                                       placeholder="Enter Firm Type">
-                                <!-- Show specific error for this field -->
-                                @error('email')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="state" class="form-label">State</label>
-                                <input type="text"
-                                       class="form-control @error('state') is-invalid @enderror"
-                                       id="state"
-                                       name="state"
-                                       value="{{ old('state', $firm->state) }}"
-                                       placeholder="Enter State">
-                                <!-- Show specific error for this field -->
-                                @error('state')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="city" class="form-label">City</label>
-                                <input type="text"
-                                       class="form-control @error('city') is-invalid @enderror"
-                                       id="city"
-                                       name="city"
-                                       value="{{ old('city', $firm->city) }}"
-                                       placeholder="Enter City">
-                                <!-- Show specific error for this field -->
-                                @error('city')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="zipcode" class="form-label">Pincode</label>
-                                <input type="text"
-                                       class="form-control @error('zipcode') is-invalid @enderror"
-                                       id="zipcode"
-                                       name="zipcode"
-                                       value="{{ old('zipcode', $firm->zipcode) }}"
-                                       placeholder="Enter Firm Type">
-                                <!-- Show specific error for this field -->
-                                @error('zipcode')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                            <div class="col-md-4 mb-3">
-                                <label for="firmType" class="form-label">Firm Type</label>
-                                <select class="form-select" id="firmType" name="firmType">
-                                    <option selected>Select Firm Type</option>
-
-                                    @foreach ($firmTypes as $firmType)
-                                        <option value="{{ $firmType->id }}" {{ $firmType->id == $firm->firm_type ? 'selected' : '' }}>{{ $firmType->name }}</option>
-                                    @endforeach
-                                </select>
-                                <!-- Show specific error for this field -->
-                                @error('firmType')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
+                                <select id="location" name="location" class="form-select">
+                                    <option>Default select</option>
+                                    <option value="1">Jodhpur</option>
+                                    <option value="2">Japur</option>
+                                    <option value="3">Delhi</option>
+                                  </select>
                             </div>
                             <div class="col-md-6 text-end">
                                 <button type="submit" class="btn btn-primary mt-4">Save</button>

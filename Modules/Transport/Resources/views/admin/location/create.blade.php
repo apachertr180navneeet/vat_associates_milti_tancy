@@ -17,7 +17,7 @@
             <div class="card">
                 <div class="card-body">
                     <!-- Show Validation Errors -->
-                    <form action="{{ route("admin.branchs.store") }}" method="post">
+                    <form action="{{ route("admin.location.store") }}" method="post">
                         <div class="row">
                             @csrf
                             <div class="col-md-10 mb-3">

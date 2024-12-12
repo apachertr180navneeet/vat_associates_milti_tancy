@@ -33,7 +33,7 @@ class TransportLocationController extends Controller
      */
     public function store(Request $request)
     {
-        return redirect()->route("admin.location.index")->with("success", "Branch Add succesfully.");
+        return redirect()->route("admin.location.index")->with("success", "Location Add succesfully.");
     }
 
     /**
