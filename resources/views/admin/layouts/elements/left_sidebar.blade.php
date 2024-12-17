@@ -27,14 +27,14 @@
 			</a>
 		</li>
 
-		<li class="menu-item {{ request()->is('admin/firm_type') ? 'active' : ''}}">
+		<li class="menu-item {{ request()->is('admin/firm_type*') ? 'active' : ''}}">
 			<a href="{{route('admin.firm.type.index')}}" class="menu-link">
 				<i class="menu-icon tf-icons bx bx-group"></i>
 				<div data-i18n="User">Firm Type</div>
 			</a>
 		</li>
 
-        <li class="menu-item {{ request()->is('admin/firm') ? 'active' : ''}}">
+        <li class="menu-item {{ request()->is('admin/firm*') ? 'active' : ''}}">
 			<a href="{{route('admin.firm.index')}}" class="menu-link">
 				<i class="menu-icon tf-icons bx bx-group"></i>
 				<div data-i18n="User">Firm</div>
