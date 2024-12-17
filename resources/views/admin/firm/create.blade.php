@@ -141,21 +141,20 @@
                                 @enderror
                             </div>
                             <div class="col-md-4 mb-3">
-                                <label for="firmType" class="form-label">Firm Type</label>
-                                <select class="form-select" id="firmType" name="firmType">
-                                    <option selected>Select Firm Type</option>
-
+                                <label for="firm_type" class="form-label">Firm Type</label>
+                                <select class="form-select @error('firm_type') is-invalid @enderror" id="firm_type" name="firm_type">
+                                    <option value="" selected>Select Firm Type</option>
                                     @foreach ($firmTypes as $firmType)
-                                        <option value="{{ $firmType->id }}">{{ $firmType->name }}</option>
+                                        <option value="{{ $firmType->id }}" {{ $firmType->id == old('firm_type') ? 'selected' : '' }}>{{ $firmType->name }}</option>
                                     @endforeach
                                 </select>
                                 <!-- Show specific error for this field -->
-                                @error('firmType')
+                                @error('firm_type')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
-                            </div>
+                            </div>                            
                             <div class="col-md-6 text-end">
                                 <button type="submit" class="btn btn-primary mt-4">Save</button>
                             </div>

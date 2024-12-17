@@ -8,7 +8,11 @@ use App\Models\{
     Firm,
     FirmType
 };
+
+use Illuminate\Support\Facades\{Auth, DB, Mail, Hash, Validator, Session,File,Redirect};
+use Carbon\Carbon;
 use Exception;
+
 use Illuminate\Validation\Rule;
 
 class FirmController extends Controller
@@ -45,13 +49,10 @@ class FirmController extends Controller
     }
 
     public function store(Request $request)
-{
-    $validatedData = [];
-
-    try {
+    {
         // Validate the input
         $validatedData = $request->validate([
-            'firmType' => [
+            'firm_name' => [
                 'required',
                 'string',
                 'max:255',
@@ -73,34 +74,43 @@ class FirmController extends Controller
             'city' => 'required|string|max:255',
             'state' => 'required|string|max:255',
             'zipcode' => 'required|string|max:10',
+            'firm_type' => 'required|exists:firm_types,id', // Ensures the firm_type exists in the database
         ]);
 
-        // Update or create the firm data
-        Firm::updateOrCreate(
-            ['id' => $request->frimid],
-            [
-                'firm_type' => $request->firmType,
-                'firm_name' => $request->firm_name, // Assuming firmType is the same as firm_name
-                'email' => $request->email,
-                'phone' => $request->phone,
-                'location' => $request->location,
-                'address' => $request->address,
-                'city' => $request->city,
-                'state' => $request->state,
-                'zipcode' => $request->zipcode,
-            ]
-        );
 
-        // Redirect to the index route with success message
-        return redirect()->route('admin.firm.index')->with(
-            'success',
-            $request->frimid ? 'Firm Type updated successfully.' : 'Firm Type saved successfully.'
-        );
-    } catch (Exception $e) {
-        // If validation fails or exception occurs, redirect back with errors and input
-        return redirect()->back()->withErrors($e->getMessage())->withInput()->with('error', 'Something went wrong: ' . $e->getMessage());
+        // Start a database transaction
+        DB::beginTransaction();
+
+        try {
+            
+
+            // Update or create the firm data
+            Firm::updateOrCreate(
+                ['id' => $request->frimid],
+                [
+                    'firm_type' => $request->firm_type,
+                    'firm_name' => $request->firm_name, // Assuming firmType is the same as firm_name
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+                    'location' => $request->location,
+                    'address' => $request->address,
+                    'city' => $request->city,
+                    'state' => $request->state,
+                    'zipcode' => $request->zipcode,
+                ]
+            );
+            // Commit the transaction
+            DB::commit();
+            // Redirect to the index route with success message
+            return redirect()->route('admin.firm.index')->with(
+                'success',
+                $request->frimid ? 'Firm Type updated successfully.' : 'Firm Type saved successfully.'
+            );
+        } catch (Exception $e) {
+            // If validation fails or exception occurs, redirect back with errors and input
+            return redirect()->back()->withErrors($e->getMessage())->withInput()->with('error', 'Something went wrong: ' . $e->getMessage());
+        }
     }
-}
 
 
     public function status(Request $request)
