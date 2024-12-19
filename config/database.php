@@ -93,6 +93,22 @@ return [
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
 
+        // Add new connection for the transport module
+        'transport_db' => [
+            'driver' => 'mysql',
+            'host' => env('TRANSPORT_DB_HOST', '127.0.0.1'),  // Define a different host if needed
+            'port' => env('TRANSPORT_DB_PORT', '3306'),
+            'database' => env('TRANSPORT_DB_DATABASE', 'transport_db'),  // New database name
+            'username' => env('TRANSPORT_DB_USERNAME', 'root'),
+            'password' => env('TRANSPORT_DB_PASSWORD', ''),
+            'unix_socket' => env('TRANSPORT_DB_SOCKET', ''),
+            'charset' => 'utf8mb4',
+            'collation' => 'utf8mb4_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+
     ],
 
     /*
