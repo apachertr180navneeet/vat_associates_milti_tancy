@@ -73,7 +73,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             Route::get('edit/{id}', 'edit')->name('edit');
             Route::delete('delete/{id}', 'destroy')->name('destroy');
         });
-
+        
     });
 
 });
