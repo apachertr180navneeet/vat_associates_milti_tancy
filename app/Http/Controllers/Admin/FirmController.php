@@ -8,7 +8,8 @@ use App\Models\{
     Firm,
     FirmType,
     City,
-    State
+    State,
+    User
 };
 
 use Illuminate\Support\Facades\{Auth, DB, Mail, Hash, Validator, Session,File,Redirect};
@@ -87,7 +88,7 @@ class FirmController extends Controller
 
         try {
             // Update or create the firm data
-            Firm::updateOrCreate(
+            $firm = Firm::updateOrCreate(
                 ['id' => $request->frimid],
                 [
                     'firm_type' => $request->firm_type,
@@ -101,6 +102,19 @@ class FirmController extends Controller
                     'zipcode' => $request->zipcode,
                 ]
             );
+            if($request->frimid == ""){
+                $user = User::Create(
+                    [
+                        'firm_id' => $firm->id,
+                        'full_name' => $request->firm_name, // Assuming firmType is the same as firm_name
+                        'email' => $request->email,
+                        'phone' => $request->phone,
+                        'address' => $request->address,
+                        "password" => Hash::make($request->phone),
+                        "role" => "firm_user",
+                    ]
+                );
+            }
             // Commit the transaction
             DB::commit();
             // Redirect to the index route with success message
