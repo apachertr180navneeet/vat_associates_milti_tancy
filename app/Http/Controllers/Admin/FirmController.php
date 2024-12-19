@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\{
     Firm,
-    FirmType
+    FirmType,
+    City,
+    State
 };
 
 use Illuminate\Support\Facades\{Auth, DB, Mail, Hash, Validator, Session,File,Redirect};
@@ -42,7 +44,9 @@ class FirmController extends Controller
     {
         try {
             $firmTypes = FirmType::where('status', 'active')->orderBy('id', 'desc')->get();
-            return view('admin.firm.create', compact('firmTypes'));
+            $locations = City::get();
+            $states = State::get();
+            return view('admin.firm.create', compact('firmTypes','locations','states'));
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
         }
@@ -71,9 +75,9 @@ class FirmController extends Controller
             ],
             'location' => 'required|string|max:255',
             'address' => 'required|string|max:255',
-            'city' => 'required|string|max:255',
-            'state' => 'required|string|max:255',
-            'zipcode' => 'required|string|max:10',
+            'city' => 'required',
+            'state' => 'required',
+            'zipcode' => 'required',
             'firm_type' => 'required|exists:firm_types,id', // Ensures the firm_type exists in the database
         ]);
 
@@ -82,8 +86,6 @@ class FirmController extends Controller
         DB::beginTransaction();
 
         try {
-            
-
             // Update or create the firm data
             Firm::updateOrCreate(
                 ['id' => $request->frimid],
@@ -104,7 +106,7 @@ class FirmController extends Controller
             // Redirect to the index route with success message
             return redirect()->route('admin.firm.index')->with(
                 'success',
-                $request->frimid ? 'Firm Type updated successfully.' : 'Firm Type saved successfully.'
+                $request->frimid ? 'Firm updated successfully.' : 'Firm saved successfully.'
             );
         } catch (Exception $e) {
             // If validation fails or exception occurs, redirect back with errors and input
@@ -167,7 +169,9 @@ class FirmController extends Controller
                 return redirect()->route('admin.firm.type.index')->with('error', 'Firm Type not found.');
             }
 
-            return view('admin.firm.edit', compact('firmTypes', 'firm'));
+            $locations = City::get();
+            $states = State::get();
+            return view('admin.firm.edit', compact('firmTypes', 'firm','locations','states'));
         } catch (Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
         }

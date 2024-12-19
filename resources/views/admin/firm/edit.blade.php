@@ -53,12 +53,12 @@
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="location" class="form-label">Location</label>
-                                <input type="text"
-                                       class="form-control @error('location') is-invalid @enderror"
-                                       id="location"
-                                       name="location"
-                                       value="{{ old('location', $firm->location) }}"
-                                       placeholder="Enter Location">
+                                <select class="form-select @error('location') is-invalid @enderror" id="location" name="location">
+                                    <option value="" selected>Select Location</option>
+                                    @foreach ($locations as $location)
+                                        <option value="{{ $location->city_name }}" {{ $location->city_name == $firm->location ? 'selected' : '' }}>{{ $location->city_name }}</option>
+                                    @endforeach
+                                </select>
                                 <!-- Show specific error for this field -->
                                 @error('location')
                                     <div class="invalid-feedback">
@@ -98,12 +98,12 @@
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="state" class="form-label">State</label>
-                                <input type="text"
-                                       class="form-control @error('state') is-invalid @enderror"
-                                       id="state"
-                                       name="state"
-                                       value="{{ old('state', $firm->state) }}"
-                                       placeholder="Enter State">
+                                <select class="form-select @error('state') is-invalid @enderror" id="state" name="state">
+                                    <option value="" selected>Select State</option>
+                                    @foreach ($states as $state)
+                                        <option value="{{ $state->state_id }}" {{ $state->state_id == $firm->state ? 'selected' : '' }} data-id="{{$state->state_id}}">{{ $state->state_name }}</option>
+                                    @endforeach
+                                </select>
                                 <!-- Show specific error for this field -->
                                 @error('state')
                                     <div class="invalid-feedback">
@@ -113,28 +113,20 @@
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="city" class="form-label">City</label>
-                                <input type="text"
-                                       class="form-control @error('city') is-invalid @enderror"
-                                       id="city"
-                                       name="city"
-                                       value="{{ old('city', $firm->city) }}"
-                                       placeholder="Enter City">
-                                <!-- Show specific error for this field -->
+                                <select class="form-select @error('city') is-invalid @enderror" id="city" name="city">
+                                    <option value="" selected>Select City</option>
+                                </select>
                                 @error('city')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                 @enderror
-                            </div>
+                            </div>            
                             <div class="col-md-4 mb-3">
                                 <label for="zipcode" class="form-label">Pincode</label>
-                                <input type="text"
-                                       class="form-control @error('zipcode') is-invalid @enderror"
-                                       id="zipcode"
-                                       name="zipcode"
-                                       value="{{ old('zipcode', $firm->zipcode) }}"
-                                       placeholder="Enter Firm Type">
-                                <!-- Show specific error for this field -->
+                                <select class="form-select @error('zipcode') is-invalid @enderror" id="zipcode" name="zipcode">
+                                    <option value="" selected>Select Pincode</option>
+                                </select>
                                 @error('zipcode')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -169,6 +161,72 @@
 @endsection
 @section('script')
 <script>
+    $(document).ready(function () {
+        var oldCity = "{{ $firm->city }}"; 
+        var oldZipcode = "{{ $firm->zipcode }}";
 
+        // When the state dropdown changes
+        $('#state').on('change', function () {
+            let stateId = $('#state').find(':selected').attr('data-id');
+            fetchCities(stateId, $('#city'), oldCity);
+        });
+
+        // When the city dropdown changes
+        $('#city').on('change', function () {
+            let cityId = $('#city').find(':selected').attr('data-id');
+            fetchPincodes(cityId, $('#zipcode'), oldZipcode);
+        });
+
+        // Fetch cities and preselect old value if available
+        function fetchCities(stateId, cityElement, oldCity) {
+            if (stateId) {
+                $.ajax({
+                    url: '{{ route("ajax.getCities", "") }}/' + stateId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        cityElement.empty().append('<option selected>Select City</option>');
+                        $.each(data, function (key, value) {
+                            let selected = (value.id == oldCity) ? 'selected' : '';
+                            cityElement.append('<option value="' + value.id + '" data-id="' + value.id + '" ' + selected + '>' + value.city_name + '</option>');
+                        });
+
+                        // Trigger change to load pincodes if oldCity exists
+                        if (oldCity) {
+                            cityElement.trigger('change');
+                        }
+                    }
+                });
+            }
+        }
+
+        // Fetch pincodes and preselect old value if available
+        function fetchPincodes(cityId, zipcodeElement, oldZipcode) {
+            if (cityId) {
+                $.ajax({
+                    url: '{{ route("ajax.getPincodes", "") }}/' + cityId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (data) {
+                        zipcodeElement.empty().append('<option selected>Select Pincode</option>');
+                        $.each(data, function (key, value) {
+                            let selected = (value.id == oldZipcode) ? 'selected' : '';
+                            zipcodeElement.append('<option value="' + value.id + '" ' + selected + '>' + value.pincode + '</option>');
+                        });
+                    }
+                });
+            }
+        }
+
+        // On page load, populate cities and pincodes if old values exist
+        if (oldCity) {
+            let stateId = $('#state').find(':selected').attr('data-id');
+            fetchCities(stateId, $('#city'), oldCity);
+        }
+        if (oldZipcode) {
+            let cityId = $('#city').find(':selected').attr('data-id');
+            fetchPincodes(cityId, $('#zipcode'), oldZipcode);
+        }
+    });
 </script>
 @endsection

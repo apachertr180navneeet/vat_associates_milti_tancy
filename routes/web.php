@@ -12,6 +12,11 @@ use App\Http\Controllers\Admin\{
 
 };
 
+
+use App\Http\Controllers\Ajax\{
+    LocationController
+};
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -85,4 +90,23 @@ Route::name('admin.')->prefix('admin')->group(function () {
 
 Route::middleware(['auth'])->group(function () {
 
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| Ajax Routes
+|--------------------------------------------------------------------------
+|
+| Routes for Ajax functionalities, prefixed with 'ajax' and named with 'ajax.'
+|
+*/
+
+Route::prefix('ajax')->name('ajax.')->group(function () {
+
+    // Company Authentication Routes
+    Route::controller(LocationController::class)->group(function () {
+        Route::get('/getCities/{state}', 'getCities')->name('getCities');
+        Route::get('/getPincodes/{city}', 'getPincodes')->name('getPincodes');
+    });
 });
