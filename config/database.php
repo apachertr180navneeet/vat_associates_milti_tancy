@@ -98,7 +98,7 @@ return [
             'driver' => 'mysql',
             'host' => env('TRANSPORT_DB_HOST', '127.0.0.1'),  // Define a different host if needed
             'port' => env('TRANSPORT_DB_PORT', '3306'),
-            'database' => env('TRANSPORT_DB_DATABASE', 'transport_db'),  // New database name
+            'database' => env('TRANSPORT_DB_DATABASE', 'vat_associates_transport'),  // New database name
             'username' => env('TRANSPORT_DB_USERNAME', 'root'),
             'password' => env('TRANSPORT_DB_PASSWORD', ''),
             'unix_socket' => env('TRANSPORT_DB_SOCKET', ''),
