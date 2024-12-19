@@ -2,41 +2,32 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Web\HomeController;
-
-// Super Admin Controller
 use App\Http\Controllers\Admin\{
     AdminAuthController,
     PageController,
     FirmTypeController,
     FirmController,
-
 };
-
-
 use App\Http\Controllers\Ajax\{
     LocationController
 };
 
 /*
-|--------------------------------------------------------------------------
+|---------------------------------------------------------------------------
 | Web Routes
-|--------------------------------------------------------------------------
+|---------------------------------------------------------------------------
 |
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
+| Register your web routes for the application. These routes are loaded
+| by the RouteServiceProvider within a group that is assigned to the
+| "web" middleware group. Enjoy building your application!
 |
 */
 
-
 // Website routes
-Route::get('/', [HomeController::class, 'index'])->name('/');
-Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-
-// Super Admin routes
-
-Route::name('admin.')->prefix('admin')->group(function () {
+// Admin routes
+Route::prefix('admin')->name('admin.')->group(function () {
 
     // Admin Authentication Routes
     Route::controller(AdminAuthController::class)->group(function () {
@@ -48,7 +39,7 @@ Route::name('admin.')->prefix('admin')->group(function () {
         Route::post('reset-password', 'submitResetPasswordForm')->name('reset.password.post');
     });
 
-    // Routes requiring 'admin' middleware
+    // Admin routes with 'admin' middleware
     Route::middleware('admin')->group(function () {
 
         // Admin Dashboard and Profile Routes
@@ -61,27 +52,26 @@ Route::name('admin.')->prefix('admin')->group(function () {
             Route::post('profile', 'updateAdminProfile')->name('update.profile');
         });
 
-        // Admin Firm Type Management Routes
+        // Firm Type Management Routes
         Route::prefix('firm_type')->name('firm.type.')->controller(FirmTypeController::class)->group(function () {
-            Route::get("/",'index')->name('index');
-            Route::get("all", 'getall')->name('all');
-            Route::get("create",'create')->name('create');
-            Route::post("store",'store')->name('store');
-            Route::post("status",'status')->name('status');
-            Route::get('/edit/{id}', 'edit')->name('edit');
-            Route::delete("delete/{id}",'destroy')->name('destroy');
+            Route::get('/', 'index')->name('index');
+            Route::get('all', 'getall')->name('all');
+            Route::get('create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
+            Route::post('status', 'status')->name('status');
+            Route::get('edit/{id}', 'edit')->name('edit');
+            Route::delete('delete/{id}', 'destroy')->name('destroy');
         });
 
-
-        // Admin Firm Management Routes
+        // Firm Management Routes
         Route::prefix('firm')->name('firm.')->controller(FirmController::class)->group(function () {
-            Route::get("/",'index')->name('index');
-            Route::get("all", 'getall')->name('all');
-            Route::get("create",'create')->name('create');
-            Route::post("store",'store')->name('store');
-            Route::post("status",'status')->name('status');
-            Route::get('/edit/{id}', 'edit')->name('edit');
-            Route::delete("delete/{id}",'destroy')->name('destroy');
+            Route::get('/', 'index')->name('index');
+            Route::get('all', 'getall')->name('all');
+            Route::get('create', 'create')->name('create');
+            Route::post('store', 'store')->name('store');
+            Route::post('status', 'status')->name('status');
+            Route::get('edit/{id}', 'edit')->name('edit');
+            Route::delete('delete/{id}', 'destroy')->name('destroy');
         });
 
     });
@@ -104,9 +94,9 @@ Route::middleware(['auth'])->group(function () {
 
 Route::prefix('ajax')->name('ajax.')->group(function () {
 
-    // Company Authentication Routes
+    // Location-related Ajax Routes
     Route::controller(LocationController::class)->group(function () {
-        Route::get('/getCities/{state}', 'getCities')->name('getCities');
-        Route::get('/getPincodes/{city}', 'getPincodes')->name('getPincodes');
+        Route::get('getCities/{state}', 'getCities')->name('getCities');
+        Route::get('getPincodes/{city}', 'getPincodes')->name('getPincodes');
     });
 });

@@ -44,7 +44,7 @@
 @endsection
 @section('script')
 <script>
-    const baseUrl = "{{ route('admin.firm.edit', ['id' => ':id']) }}";
+    const editBaseUrl = "{{ route('admin.firm.edit', ['id' => ':id']) }}";
 
     $('#firmTable').DataTable({
         processing: true,
@@ -90,8 +90,7 @@
                     buttons += `<button type="button" class="btn btn-sm btn-danger me-1" onclick="deleteData(${id})">Delete</button>`;
 
                     // Edit button
-                    buttons += `<a href="${baseUrl.replace(':id', id)}" class="btn btn-sm btn-warning">Edit</a>`;
-
+                    buttons += `<a href="${editBaseUrl.replace(':id', id)}" class="btn btn-sm btn-warning me-1">Edit</a>`;
                     return buttons;
                 }
             }

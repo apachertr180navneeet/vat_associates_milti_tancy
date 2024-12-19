@@ -19,7 +19,7 @@ use Illuminate\Validation\Rule;
 
 class FirmController extends Controller
 {
-    //========================= Firm Type Member Functions ========================//
+    //========================= Firm Member Functions ========================//
 
     public function index()
     {
